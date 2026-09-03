@@ -1,0 +1,408 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Events - Layer8 Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "terminal-bg": "#0c1017",
+                        "terminal-header": "#111722",
+                        "terminal-border": "#1e293b",
+                        "cyber-blue": "#3b82f6",
+                        "on-secondary-fixed": "#001a42",
+                        "surface-container-low": "#f6f3f5",
+                        "on-surface": "#1b1b1d",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-container-highest": "#e4e2e4",
+                        "on-surface-variant": "#45464d",
+                        "tertiary-fixed": "#fcdeb5",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "outline": "#76777d",
+                        "surface-tint": "#565e74",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-primary-container": "#7c839b",
+                        "on-primary-fixed": "#131b2e",
+                        "on-background": "#1b1b1d",
+                        "primary": "#000000",
+                        "on-secondary-container": "#fefcff",
+                        "surface-container": "#f0edef",
+                        "on-tertiary-fixed": "#271901",
+                        "tertiary": "#000000",
+                        "surface-container-high": "#eae7e9",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#f3f0f2",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "surface-container-lowest": "#ffffff",
+                        "success": "#10B981",
+                        "warning": "#F59E0B",
+                        "primary-fixed": "#dae2fd",
+                        "on-tertiary-container": "#98805d",
+                        "surface": "#fcf8fa",
+                        "tertiary-container": "#271901",
+                        "outline-variant": "#c6c6cd",
+                        "surface-bright": "#fcf8fa",
+                        "secondary-container": "#2170e4",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "surface-dim": "#dcd9db",
+                        "surface-variant": "#e4e2e4",
+                        "on-primary": "#ffffff",
+                        "surface-alt": "#F8FAFC",
+                        "secondary": "#0058be",
+                        "primary-fixed-dim": "#bec6e0",
+                        "error": "#EF4444",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "background": "#fcf8fa",
+                        "inverse-primary": "#bec6e0",
+                        "primary-container": "#131b2e",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "max-width": "1280px",
+                        "unit": "4px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .grid-bg {
+            background-size: 44px 44px;
+            background-image: 
+                linear-gradient(to right, rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+        }
+        .scanline {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+        }
+        .vignette {
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.85);
+        }
+        .terminal-window {
+            border: 1px solid #1e293b;
+            background: #0c1017;
+        }
+        .terminal-header {
+            border-bottom: 1px solid #1e293b;
+            background: #111722;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0c1017;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-[#080b11] text-gray-200 min-h-screen relative font-body-md overflow-x-hidden">
+<div class="fixed inset-0 grid-bg z-[-2] pointer-events-none"></div>
+<div class="fixed inset-0 scanline z-[-1] pointer-events-none"></div>
+<div class="fixed inset-0 vignette z-[-1] pointer-events-none"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#080b11]/90 backdrop-blur-md border-b border-[#1e293b]">
+<div class="max-w-[1160px] mx-auto px-margin-mobile md:px-margin-desktop flex justify-between items-center h-16">
+<div class="flex items-center gap-3">
+<img alt="Layer8 Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu_BMsy2JUOazy7HOuzxiGRIdR0ViFbwjlzTi9xRa-48TMPhA4fCLruZzTaz5D8BDn0OgLe6PTO8ZAfKNmzhjt9iTERJqUDWNmVxP76DhK0ZiWhimHs8jNKI3lzy3XJIb7phG61hhxL2PkQa9lcc4zcXd_nZDn7MDIZey2GgWMZ-BK8Ir55a3Mz2rCEmqvmpnCgdMPp6LaXPykRQ2pGMGQtZTZMdgXlUoDKqdwWh-fX_CPyQmb_xotVTD_rfTA24bhS3krdlpxmgSk_w">
+<span class="font-display text-[24px] tracking-tighter text-white">Layer8</span>
+</div>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex gap-8"><a class="font-label-md text-label-md uppercase tracking-widest hover:text-white transition-colors duration-200 text-gray-400" href="#">BLOGS</a><a class="font-label-md text-label-md uppercase tracking-widest text-gray-400 hover:text-white transition-colors duration-200" href="#">WEEKLY CTFS</a><a class="font-label-md text-label-md uppercase tracking-widest text-white transition-colors duration-200" href="#" style="position: relative; padding-bottom: 4px;">EVENTS<span style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: #3b82f6; transition: all 0.3s ease;"></span></a><a class="font-label-md text-label-md uppercase tracking-widest text-gray-400 hover:text-white transition-colors duration-200" href="#">RESOURCES</a><a class="font-label-md text-label-md uppercase tracking-widest text-gray-400 hover:text-white transition-colors duration-200" href="#">PROJECTS</a><a class="font-label-md text-label-md uppercase tracking-widest text-gray-400 hover:text-white transition-colors duration-200" href="#">CORE</a><a class="font-label-md text-label-md uppercase tracking-widest text-gray-400 hover:text-white transition-colors duration-200" href="#">DOMAINS</a><a class="font-label-md text-label-md uppercase tracking-widest text-gray-400 hover:text-white transition-colors duration-200" href="#">LEGACY/ALUMNI</a><a class="font-label-md text-label-md uppercase tracking-widest text-gray-400 hover:text-white transition-colors duration-200" href="#">HALL OF FAME</a></nav>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="pt-28 pb-24 max-w-[1160px] mx-auto px-margin-mobile md:px-margin-desktop flex flex-col gap-y-12">
+<!-- Hero Section -->
+<section class="flex flex-col gap-2">
+<p class="font-label-md text-label-md text-[#3b82f6] uppercase tracking-widest">
+                // scheduled_operations_terminal
+            </p>
+<h1 class="font-display text-[42px] md:text-[56px] font-bold leading-none tracking-tighter text-white">
+                Events Terminal</h1>
+</section>
+<!-- Interactive Command Pills -->
+<div class="flex flex-wrap gap-3 items-center">
+<span class="text-xs font-label-sm text-gray-400 uppercase tracking-wider">Quick Commands:</span>
+<button class="bg-[#111722] hover:bg-[#1e293b] border border-[#1e293b] text-[#3b82f6] font-label-md text-xs px-3 py-1.5 rounded transition-all" onclick="executeCommand('list')">&gt; list_events</button>
+<button class="bg-[#111722] hover:bg-[#1e293b] border border-[#1e293b] text-[#3b82f6] font-label-md text-xs px-3 py-1.5 rounded transition-all" onclick="executeCommand('ctf-2024')">&gt; inspect_ctf_2024</button>
+<button class="bg-[#111722] hover:bg-[#1e293b] border border-[#1e293b] text-[#3b82f6] font-label-md text-xs px-3 py-1.5 rounded transition-all" onclick="executeCommand('workshop-crypto')">&gt; view_workshops</button>
+<button class="bg-[#111722] hover:bg-[#1e293b] border border-[#1e293b] text-[#3b82f6] font-label-md text-xs px-3 py-1.5 rounded transition-all" onclick="executeCommand('help')">&gt; help</button>
+<button class="bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] border border-[#1e293b] text-gray-400 font-label-md text-xs px-3 py-1.5 rounded transition-all" onclick="executeCommand('clear')">clear</button>
+</div>
+<!-- Interactive Terminal Window -->
+<section class="terminal-window rounded-DEFAULT flex flex-col h-[520px] shadow-2xl">
+<div class="terminal-header px-4 py-3 flex justify-between items-center rounded-t-DEFAULT">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-[#64748b]"></div>
+<div class="w-3 h-3 rounded-full bg-[#64748b]"></div>
+<div class="w-3 h-3 rounded-full bg-[#64748b]"></div>
+<span class="font-label-sm text-label-sm text-gray-400 ml-2">layer8 — ~/events</span>
+</div>
+</div>
+<!-- Terminal Body Output Area -->
+<div class="p-6 flex flex-col gap-4 grow overflow-y-auto custom-scrollbar font-label-md text-sm text-gray-300" id="terminal-output">
+<div class="text-[#3b82f6]">
+&gt;&gt; LAYER8 SECURITY OPERATIONS KERNEL v4.12.0<br>
+&gt;&gt; Type <span class="text-white font-bold">help</span> or click quick-action pills above to query active events &amp; logs.
+</div>
+<div class="border-b border-[#1e293b] pb-2"></div>
+<div class="flex flex-col gap-1"><div class="text-[#3b82f6] font-bold">$ list</div><div></div></div><div class="flex flex-col gap-1"><div>
+<div class="space-y-3">
+<div class="text-[#3b82f6] font-bold">[ACTIVE EVENTS]</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<div class="p-3 border border-[#1e293b] rounded bg-[#111722] hover:bg-[#1e293b] cursor-pointer transition-colors" onclick="executeCommand('ctf-2024')">
+<div class="flex justify-between text-xs"><span class="text-white font-bold">Layer8 CTF 2024</span><span class="text-green-400">[LIVE]</span></div>
+<div class="text-xs text-gray-400 mt-1">DATE: 2024.11.15 &gt; Click to inspect</div>
+</div>
+<div class="p-3 border border-[#1e293b] rounded bg-[#111722] hover:bg-[#1e293b] cursor-pointer transition-colors" onclick="executeCommand('workshop-crypto')">
+<div class="flex justify-between text-xs"><span class="text-white font-bold">Advanced Crypto Workshop</span><span class="text-yellow-400">[PENDING]</span></div>
+<div class="text-xs text-gray-400 mt-1">DATE: 2024.12.01 &gt; Click to inspect</div>
+</div>
+</div>
+<div class="text-[#3b82f6] font-bold mt-3">[ARCHIVED LOGS]</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<div class="p-3 border border-[#1e293b] rounded bg-[#111722]/50 hover:bg-[#1e293b] cursor-pointer transition-colors" onclick="executeCommand('buffers')">
+<div class="flex justify-between text-xs"><span class="text-white font-bold">Intro to Buffer Overflows</span><span class="text-gray-500">[ARCHIVED]</span></div>
+<div class="text-xs text-gray-500 mt-1">EXEC: 2024.09.12</div>
+</div>
+<div class="p-3 border border-[#1e293b] rounded bg-[#111722]/50 hover:bg-[#1e293b] cursor-pointer transition-colors" onclick="executeCommand('zerotrust')">
+<div class="flex justify-between text-xs"><span class="text-white font-bold">Zero Trust Architecture</span><span class="text-gray-500">[ARCHIVED]</span></div>
+<div class="text-xs text-gray-500 mt-1">EXEC: 2024.08.20</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+<!-- Terminal Prompt Input -->
+<div class="p-4 bg-[#111722] border-t border-[#1e293b] flex items-center gap-2 rounded-b-DEFAULT">
+<span class="text-[#3b82f6] font-label-md text-sm">$</span>
+<input autofocus="" class="bg-transparent border-none outline-none text-white font-label-md text-sm w-full focus:ring-0 p-0 placeholder-gray-500" id="terminal-input" placeholder="type a command (e.g., list, ctf-2024, workshop-crypto, help)..." type="text">
+<button class="bg-[#3b82f6] hover:bg-blue-600 text-[#0c1017] font-label-md font-bold text-xs px-4 py-1.5 rounded transition-colors uppercase tracking-wider" onclick="handlePromptSubmit()">Execute</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 border-t border-[#1e293b] bg-[#080b11] text-gray-400 font-body-md"><div class="max-w-[1160px] mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-12"><div class="flex flex-col gap-6"><div class="flex items-center gap-3"><img alt="Logo White" class="h-6 w-auto mix-blend-screen opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuejoCk5GPtvlHRo7wLnJQJTKHzSxsmzN8IG00pN69EzBPC5nxgTrk665743DnRa8aqPKXPFjDJhfGuWAceZdcTx_y6hV5jnCouLVsVrtICYdnIcdPlQb1FK6Kg6yz8uhYky78g6KTydB-Ff8Rffe64fS_tZr7lOpVc-qQZhZ_GFPG-C-4MUC2_4rU6_7OI7ELk5EhAKU3I6gUaZfjBbnd16G48qixWU40rGMmmzdKn5M8LvfKbaV-MgoQhGttUXthLw"><span class="font-display text-[20px] tracking-tighter text-white">LAYER8</span></div><p class="text-xs text-gray-400 leading-relaxed">Cybersecurity Club · PES University, Electronic City Campus, Bengaluru. Offense, defense, and a lot of capture the flag.</p><div class="flex flex-col gap-2"><span class="font-label-sm text-label-sm text-gray-500 uppercase tracking-widest">PART OF</span><div class="pesu-chip bg-[rgba(255,255,255,0.03)] px-4 py-2 rounded-full border border-[#1e293b] w-max"><img alt="PES University Logo" class="h-6 w-auto mix-blend-screen opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALxFkH_qzIZLXJLgvUSo1m9KcfK__t3thVulkIDhfbEbU2v4KqVX4EPdASZvqNavYZMMlt_kctByz94hCY70crrWPR_gSmuptnnTnJhoxI-drdl2MXsfz8H0TqcIdzQyWAIIrlZqmsOlQm9bSBGJAlx_Bqa5yqAiZApMNy6XPL6KtO9ONV-BrZitKaZ7FfXuL-mx4TbK5dkq413vMuUeDNN6l_7bUsiCHnHTPhZfoJ2F1JeDNBY_W6TsP7QeFCfPvY_7cywXMgbMvNcw"></div></div></div><div class="flex flex-col gap-4"><span class="font-label-md text-label-md text-white uppercase tracking-widest">PAGES</span><div class="grid grid-cols-1 gap-2 text-xs"><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Blogs</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Weekly CTFs</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Events</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Resources</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Projects</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Core</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Domains</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Legacy/Alumni</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Hall of Fame</a></div></div><div class="flex flex-col gap-4"><span class="font-label-md text-label-md text-white uppercase tracking-widest">ELSEWHERE</span><div class="grid grid-cols-1 gap-2 text-xs"><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Instagram</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Discord</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">GitHub</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">LinkedIn</a><a class="text-white hover:text-[#3b82f6] transition-colors" href="#">Email</a></div></div></div><div class="max-w-[1160px] mx-auto px-margin-mobile md:px-margin-desktop mt-12 pt-6 border-t border-[#1e293b] flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-4"><span class="">© 2026 Layer8 · built in the 8th layer</span><span class="">nav + social links are placeholders — wire them up later</span></div></footer>
+<!-- Interactive Terminal Script -->
+<script>
+    const eventDatabase = {
+        'ctf-2024': {
+            title: 'Layer8 CTF 2024',
+            status: 'LIVE',
+            statusColor: 'text-green-400',
+            date: '2024.11.15',
+            desc: 'Initializing global capture the flag sequence. Vulnerabilities identified in sector 7G. Operators required for immediate extraction and analysis.',
+            prerequisites: 'Basic networking, Linux CLI, Wireshark',
+            flags: '10 Flags available across Web, Crypto, and Pwn categories.',
+            actionText: 'join_ops'
+        },
+        'workshop-crypto': {
+            title: 'Advanced Cryptography Workshop',
+            status: 'PENDING',
+            statusColor: 'text-yellow-400',
+            date: '2024.12.01',
+            desc: 'Decoding modern encryption standards. Practical session on quantum-resistant algorithms and lattice-based cryptography.',
+            prerequisites: 'Basic Python, Linear Algebra',
+            flags: 'Certificate of completion upon decryption challenge success.',
+            actionText: 'register_now'
+        },
+        'zerotrust': {
+            title: 'Seminar: Zero Trust Architecture',
+            status: 'ARCHIVED',
+            statusColor: 'text-gray-500',
+            date: '2024.08.20',
+            desc: 'Implementing identity-based perimeter defense and micro-segmentation strategies in enterprise cloud networks.',
+            prerequisites: 'Cloud Infrastructure Basics',
+            flags: 'Logged archive session.',
+            actionText: 'view_logs'
+        },
+        'buffers': {
+            title: 'Workshop: Intro to Buffer Overflows',
+            status: 'ARCHIVED',
+            statusColor: 'text-gray-500',
+            date: '2024.09.12',
+            desc: 'Memory manipulation techniques detailed, stack smashing protection bypasses, and shellcode injection.',
+            prerequisites: 'C Programming, Assembly fundamentals',
+            flags: 'Logged archive session.',
+            actionText: 'view_logs'
+        }
+    };
+
+    const terminalOutput = document.getElementById('terminal-output');
+    const terminalInput = document.getElementById('terminal-input');
+
+    function appendToTerminal(htmlContent, isCommand = false, commandText = '') {
+        const div = document.createElement('div');
+        div.className = "flex flex-col gap-1";
+        
+        if (isCommand) {
+            div.innerHTML = `<div class="text-[#3b82f6] font-bold">$ ${escapeHtml(commandText)}</div>`;
+        }
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.innerHTML = htmlContent;
+        div.appendChild(contentDiv);
+        
+        terminalOutput.appendChild(div);
+        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    }
+
+    function escapeHtml(text) {
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    function executeCommand(cmd) {
+        const cleanCmd = cmd.trim().toLowerCase();
+        if (!cleanCmd) return;
+
+        appendToTerminal('', true, cleanCmd);
+
+        setTimeout(() => {
+            if (cleanCmd === 'help') {
+                appendToTerminal(`
+                    <div class="text-[#3b82f6] space-y-1">
+                        <div>Available Commands:</div>
+                        <div class="pl-4 text-gray-300">
+                          - <span class="text-white font-bold">list</span> : Display all active &amp; archived events/workshops.<br>
+                          - <span class="text-white font-bold">ctf-2024</span> : Inspect Layer8 CTF 2024 details.<br>
+                          - <span class="text-white font-bold">workshop-crypto</span> : Inspect Cryptography Workshop.<br>
+                          - <span class="text-white font-bold">zerotrust</span> : Inspect Zero Trust Seminar archive.<br>
+                          - <span class="text-white font-bold">buffers</span> : Inspect Buffer Overflow Workshop archive.<br>
+                          - <span class="text-white font-bold">clear</span> : Clear terminal screen.
+                        </div>
+                    </div>
+                `);
+            } else if (cleanCmd === 'list' || cleanCmd === 'events') {
+                appendToTerminal(`
+                    <div class="space-y-3">
+                        <div class="text-[#3b82f6] font-bold">[ACTIVE EVENTS]</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div onclick="executeCommand('ctf-2024')" class="p-3 border border-[#1e293b] rounded bg-[#111722] hover:bg-[#1e293b] cursor-pointer transition-colors">
+                                <div class="flex justify-between text-xs"><span class="text-white font-bold">Layer8 CTF 2024</span><span class="text-green-400">[LIVE]</span></div>
+                                <div class="text-xs text-gray-400 mt-1">DATE: 2024.11.15 &gt; Click to inspect</div>
+                            </div>
+                            <div onclick="executeCommand('workshop-crypto')" class="p-3 border border-[#1e293b] rounded bg-[#111722] hover:bg-[#1e293b] cursor-pointer transition-colors">
+                                <div class="flex justify-between text-xs"><span class="text-white font-bold">Advanced Crypto Workshop</span><span class="text-yellow-400">[PENDING]</span></div>
+                                <div class="text-xs text-gray-400 mt-1">DATE: 2024.12.01 &gt; Click to inspect</div>
+                            </div>
+                        </div>
+                        <div class="text-[#3b82f6] font-bold mt-3">[ARCHIVED LOGS]</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div onclick="executeCommand('buffers')" class="p-3 border border-[#1e293b] rounded bg-[#111722]/50 hover:bg-[#1e293b] cursor-pointer transition-colors">
+                                <div class="flex justify-between text-xs"><span class="text-white font-bold">Intro to Buffer Overflows</span><span class="text-gray-500">[ARCHIVED]</span></div>
+                                <div class="text-xs text-gray-500 mt-1">EXEC: 2024.09.12</div>
+                            </div>
+                            <div onclick="executeCommand('zerotrust')" class="p-3 border border-[#1e293b] rounded bg-[#111722]/50 hover:bg-[#1e293b] cursor-pointer transition-colors">
+                                <div class="flex justify-between text-xs"><span class="text-white font-bold">Zero Trust Architecture</span><span class="text-gray-500">[ARCHIVED]</span></div>
+                                <div class="text-xs text-gray-500 mt-1">EXEC: 2024.08.20</div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            } else if (eventDatabase[cleanCmd]) {
+                const ev = eventDatabase[cleanCmd];
+                appendToTerminal(`
+                    <div class="p-4 border border-[#1e293b] rounded bg-[#111722] space-y-2">
+                        <div class="flex justify-between items-center border-b border-[#1e293b] pb-2">
+                            <span class="text-white font-headline-md text-base">${ev.title}</span>
+                            <span class="${ev.statusColor} font-bold text-xs">[ STATUS: ${ev.status} ]</span>
+                        </div>
+                        <div class="text-xs text-gray-300 leading-relaxed space-y-1">
+                            <div><span class="text-[#3b82f6]">&gt; Description:</span> ${ev.desc}</div>
+                            <div><span class="text-[#3b82f6]">&gt; Prerequisites:</span> ${ev.prerequisites}</div>
+                            <div><span class="text-[#3b82f6]">&gt; Requirements/Flags:</span> ${ev.flags}</div>
+                        </div>
+                        <div class="pt-3 border-t border-[#1e293b] flex justify-between items-center text-xs">
+                            <span class="text-gray-500">DATE: ${ev.date}</span>
+                            <button onclick="alert('Action initialized: ${ev.actionText} for ${ev.title}')" class="text-[#3b82f6] hover:text-white transition-colors">&gt; ${ev.actionText}</button>
+                        </div>
+                    </div>
+                `);
+            } else if (cleanCmd === 'clear') {
+                terminalOutput.innerHTML = '';
+            } else {
+                appendToTerminal(`<div class="text-red-400">&gt; command not recognized: "${escapeHtml(cleanCmd)}". Type <span class="text-white underline cursor-pointer" onclick="executeCommand('help')">help</span> for valid commands.</div>`);
+            }
+        }, 150);
+    }
+
+    function handlePromptSubmit() {
+        const val = terminalInput.value;
+        if (!val.trim()) return;
+        terminalInput.value = '';
+        executeCommand(val);
+    }
+
+    terminalInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            handlePromptSubmit();
+        }
+    });
+
+    // Initial greeting sequence
+    setTimeout(() => {
+        executeCommand('list');
+    }, 400);
+</script>
+
+
+</body></html>

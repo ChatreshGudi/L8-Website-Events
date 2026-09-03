@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .grid-bg {
+    background-size: 44px 44px;
+    background-image: 
+      linear-gradient(to right, rgba(59, 130, 246, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(59, 130, 246, 0.04) 1px, transparent 1px);
+  }
+
+  .scanline {
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.15));
+    background-size: 100% 4px;
+  }
+
+  .vignette {
+    box-shadow: inset 0 0 150px rgba(0,0,0,0.85);
+  }
+
+  .terminal-window {
+    border: 1px solid #1e293b;
+    background: #0c1017;
+  }
+
+  .terminal-header {
+    border-bottom: 1px solid #1e293b;
+    background: #111722;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #0c1017;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #3b82f6;
+  }
+}
+
+/* Cursor blink animation */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+}
